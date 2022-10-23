@@ -5,8 +5,8 @@ document.addEventListener("DOMContentLoaded", function() {  // Function executes
     divMain = document.getElementById("divMain");
     // divMain.addEventListener("focus", fHandleEnter, true);  // When in focus, change background to yellow.
     // divMain.addEventListener("blur", fHandleExit, true);  // When out of focus, reset background.
-    $("input").focus(function() {$(this).css("background-color", "yellow"); });  // Same as the addEventListener line, but with jQuery.
-    $("input").blur(function () {$(this).css("background-color", ""); });  // Same as the addEventListener line, but with jQuery.
+    $("input").focus(function() {$(this).css("background-color", "yellow"); });  // Same as the addEventListener line, but using jQuery and applied to all inputs.
+    $("input").blur(function () {$(this).css("background-color", ""); });  // Same as the addEventListener line, but using jQuery and applied to all inputs.
     fProcessForm();
 
     let inputElements = document.querySelectorAll("#frmRegister input[type=text], input[type=password]");  // Selects all input texts and passwords.
@@ -15,8 +15,24 @@ document.addEventListener("DOMContentLoaded", function() {  // Function executes
     let spanElements = document.querySelectorAll("form span");  // Selects all span elements within the form.
     console.log(spanElements);  // Checks to see all span elements within the form are selected.
 
+    // Checks to confirm if both passwords and both emails match.
     inputElements[2].addEventListener("blur", function() {fCompareInputs(inputElements[1].value, inputElements[2].value, spanElements[2])},true);
     inputElements[4].addEventListener("blur", function() {fCompareInputs(inputElements[3].value, inputElements[4].value, spanElements[4])},true);
+
+    // Checks if email is valid.
+    let userEmail = document.getElementById("txtEmail");
+    userEmail.oninput = function fValidateEmail() {
+        
+        // let emailPattern = /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/;
+        // let emailPattern = /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/g;
+        let emailPattern = /^[\w\d]+@[\w\d]/
+        console.log(userEmail.value);
+        if(userEmail.value.match(emailPattern)) {
+            console.log('ayyy');
+        } else {
+            console.log('FUCK');
+        }
+    }
 })
 
 function fHandleEnter(evt) {
