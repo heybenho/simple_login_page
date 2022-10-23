@@ -19,20 +19,8 @@ document.addEventListener("DOMContentLoaded", function() {  // Function executes
     inputElements[2].addEventListener("blur", function() {fCompareInputs(inputElements[1].value, inputElements[2].value, spanElements[2])},true);
     inputElements[4].addEventListener("blur", function() {fCompareInputs(inputElements[3].value, inputElements[4].value, spanElements[4])},true);
 
-    // Checks if email is valid.
-    let userEmail = document.getElementById("txtEmail");
-    userEmail.oninput = function fValidateEmail() {
-        
-        // let emailPattern = /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/;
-        // let emailPattern = /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/g;
-        let emailPattern = /^[\w\d]+@[\w\d]/
-        console.log(userEmail.value);
-        if(userEmail.value.match(emailPattern)) {
-            console.log('ayyy');
-        } else {
-            console.log('FUCK');
-        }
-    }
+    // Calls function to check that the Email input is a valid email.
+    inputElements[3].addEventListener("keyup", function() {fValidateEmail(inputElements[3], spanElements[3])}, true);
 })
 
 function fHandleEnter(evt) {
@@ -45,6 +33,7 @@ function fHandleExit(evt) {
     if (evt.target.tagName == "INPUT") evt.target.style.backgroundColor = "";
 }
 
+// This function processes the form and sends the user to the confirmation screen.
 function fProcessForm() {
     let strQueryString = decodeURIComponent(location.search);  // Assigns location from URL.
     let login = strQueryString.replace(/^(.*?=)/, "");  // Takes only last part from location.
@@ -59,6 +48,7 @@ function fProcessForm() {
     };
 }
 
+/// This function checks that the password/email and their confirm inputs match.
 function fCompareInputs(value1, value2, display) {
     console.log(value1, value2);
     if (value1.length==0 || value2.length==0) {
@@ -75,3 +65,15 @@ function fCompareInputs(value1, value2, display) {
     }
 }
 
+// This function validates the email input.
+function fValidateEmail(userEmail, emailDisplay) {
+    let emailPattern = /^[\w+.-]+@[\w+-]+\.[A-Za-z]{2,}/
+    // Pattern checks that the email has this struture: at least 1 character, an @ symbol, at least 1 character, a period, and then at least 2 letters at the end.
+    if(userEmail.value.match(emailPattern)) {
+        emailDisplay.innerHTML = "Email is valid";
+        emailDisplay.style.backgroundColor = "green";
+    } else {
+        emailDisplay.innerHTML = "Invalid email";
+        emailDisplay.style.backgroundColor = "red";
+    }
+}
